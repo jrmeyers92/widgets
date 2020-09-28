@@ -1,7 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 const DropDown = ({ options, selected, onSelectedChange }) => {
 	const [open, setOpen] = useState(false);
+	const ref = useRef();
+	const colorStyle = { color: selected.label };
+
+	useEffect(() => {
+		const onBodyClick = (event) => {
+			if (ref.current.contains(event.target)) {
+				return;
+			}
+			setOpen(false);
+		};
+
+		document.body.addEventListener("click", onBodyClick);
+
+		return () => {
+			document.body.removeEventListener("click", onBodyClick);
+		};
+	}, []);
 
 	const redneredOptions = options.map((option) => {
 		if (option.value === selected.value) {
@@ -19,7 +36,7 @@ const DropDown = ({ options, selected, onSelectedChange }) => {
 	});
 
 	return (
-		<div className='ui form'>
+		<div className='ui form' ref={ref}>
 			<div className='field'>
 				<label className='label'>Select a color </label>
 				<div
@@ -31,6 +48,7 @@ const DropDown = ({ options, selected, onSelectedChange }) => {
 						{redneredOptions}
 					</div>
 				</div>
+				<div style={colorStyle}>this text is {selected.label}</div>
 			</div>
 		</div>
 	);
