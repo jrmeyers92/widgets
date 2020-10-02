@@ -17,6 +17,10 @@ const options = [
 		label: "Hindi",
 		value: "hi",
 	},
+	{
+		label: "Spanish",
+		value: "es",
+	},
 ];
 
 const Translate = () => {
